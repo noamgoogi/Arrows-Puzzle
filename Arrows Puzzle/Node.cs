@@ -12,7 +12,6 @@ namespace Arrows_Puzzle
         //properties
         private Node next;
         private Node prev;
-        private Node head;
 
         private Vector2Int pos;
 
@@ -52,6 +51,16 @@ namespace Arrows_Puzzle
             return node;
         }
 
+        public Node GetHead()
+        {
+            Node node = this;
+
+            while (node.Prev != null)
+                node = node.Prev;
+
+            return node;
+        }
+
 
 
         public bool IsFree((int x, int y) grid, List<Node> heads)
@@ -65,7 +74,7 @@ namespace Arrows_Puzzle
                     Node node = head;
                     while (node != null)
                     {
-                        if (node.Pos == tempPos && node != GetTail()) {return false;}
+                        if (node.Pos == tempPos && node != GetTail()) { return false; }
                         node = node.Next;
                     }
                 }
@@ -73,6 +82,15 @@ namespace Arrows_Puzzle
             }
             return true;
         }
-        
+
+        public Node MoveNodes()
+        {
+            Node tail = GetTail();
+            Vector2Int direction = tail.GetDirection();
+            tail.Next = new Node(tail.Pos + direction);
+
+            return this.Next;
+        }
+
     }
 }
